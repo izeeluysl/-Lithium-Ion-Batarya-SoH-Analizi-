@@ -1,0 +1,182 @@
+%% 1
+
+% Battery 5 için veri dosyasını yükleme ve işlemler
+load('B0005.mat');
+
+for i = 1:length(B0005.cycle)
+    if ~strcmp(B0005.cycle(i).type, 'impedance')
+        fields_to_check = {'Voltage_measured', 'Current_measured', 'Temperature_measured', 'Current_charge', 'Voltage_charge', 'Time'};
+        for k = 1:numel(fields_to_check)
+            if isfield(B0005.cycle(i).data, fields_to_check{k})
+                % Eksik verileri doldurma
+                B0005.cycle(i).data.(fields_to_check{k}) = fillmissing(B0005.cycle(i).data.(fields_to_check{k}), 'previous');
+                % Normalizasyon
+                B0005.cycle(i).data.(fields_to_check{k}) = normalize(B0005.cycle(i).data.(fields_to_check{k}));
+                % Gürültü temizleme (medyan filtresi kullanarak)
+                B0005.cycle(i).data.(fields_to_check{k}) = medfilt1(B0005.cycle(i).data.(fields_to_check{k}), 3); % 3 örneklik medyan filtresi
+            end
+        end
+    else % impedance case
+        fields_to_check = {'Sense_current', 'Battery_current', 'Current_ratio', 'Battery_impedance', 'Rectified_impedance', 'Re', 'Rct'};
+        for k = 1:numel(fields_to_check)
+            if isfield(B0005.cycle(i).data, fields_to_check{k})
+                % Eksik verileri doldurma
+                B0005.cycle(i).data.(fields_to_check{k}) = fillmissing(B0005.cycle(i).data.(fields_to_check{k}), 'previous');
+                % Normalizasyon
+                B0005.cycle(i).data.(fields_to_check{k}) = normalize(B0005.cycle(i).data.(fields_to_check{k}));
+            end
+        end
+    end
+end
+
+% Battery 6 için veri dosyasını yükleme ve işlemler
+load('B0006.mat');
+
+for i = 1:length(B0006.cycle)
+    if ~strcmp(B0006.cycle(i).type, 'impedance')
+        fields_to_check = {'Voltage_measured', 'Current_measured', 'Temperature_measured', 'Current_charge', 'Voltage_charge', 'Time'};
+        for k = 1:numel(fields_to_check)
+            if isfield(B0006.cycle(i).data, fields_to_check{k})
+                % Eksik verileri doldurma
+                B0006.cycle(i).data.(fields_to_check{k}) = fillmissing(B0006.cycle(i).data.(fields_to_check{k}), 'previous');
+                % Normalizasyon
+                B0006.cycle(i).data.(fields_to_check{k}) = normalize(B0006.cycle(i).data.(fields_to_check{k}));
+                % Gürültü temizleme (medyan filtresi kullanarak)
+                B0006.cycle(i).data.(fields_to_check{k}) = medfilt1(B0006.cycle(i).data.(fields_to_check{k}), 3); % 3 örneklik medyan filtresi
+            end
+        end
+    else % impedance case
+        fields_to_check = {'Sense_current', 'Battery_current', 'Current_ratio', 'Battery_impedance', 'Rectified_impedance', 'Re', 'Rct'};
+        for k = 1:numel(fields_to_check)
+            if isfield(B0006.cycle(i).data, fields_to_check{k})
+                % Eksik verileri doldurma
+                B0006.cycle(i).data.(fields_to_check{k}) = fillmissing(B0006.cycle(i).data.(fields_to_check{k}), 'previous');
+                % Normalizasyon
+                B0006.cycle(i).data.(fields_to_check{k}) = normalize(B0006.cycle(i).data.(fields_to_check{k}));
+            end
+        end
+    end
+end
+
+% Battery 18 için veri dosyasını yükleme ve işlemler
+load('B0018.mat');
+
+for i = 1:length(B0018.cycle)
+    if ~strcmp(B0018.cycle(i).type, 'impedance')
+        fields_to_check = {'Voltage_measured', 'Current_measured', 'Temperature_measured', 'Current_charge', 'Voltage_charge', 'Time'};
+        for k = 1:numel(fields_to_check)
+            if isfield(B0018.cycle(i).data, fields_to_check{k})
+                % Eksik verileri doldurma
+                B0018.cycle(i).data.(fields_to_check{k}) = fillmissing(B0018.cycle(i).data.(fields_to_check{k}), 'previous');
+                % Normalizasyon
+                B0018.cycle(i).data.(fields_to_check{k}) = normalize(B0018.cycle(i).data.(fields_to_check{k}));
+                % Gürültü temizleme (medyan filtresi kullanarak)
+                B0018.cycle(i).data.(fields_to_check{k}) = medfilt1(B0018.cycle(i).data.(fields_to_check{k}), 3); % 3 örneklik medyan filtresi
+            end
+        end
+    else % impedance case
+        fields_to_check = {'Sense_current', 'Battery_current', 'Current_ratio', 'Battery_impedance', 'Rectified_impedance', 'Re', 'Rct'};
+        for k = 1:numel(fields_to_check)
+            if isfield(B0018.cycle(i).data, fields_to_check{k})
+                % Eksik verileri doldurma
+                B0018.cycle(i).data.(fields_to_check{k}) = fillmissing(B0018.cycle(i).data.(fields_to_check{k}), 'previous');
+                % Normalizasyon
+                B0018.cycle(i).data.(fields_to_check{k}) = normalize(B0018.cycle(i).data.(fields_to_check{k}));
+            end
+        end
+    end
+end
+
+
+%% 2
+
+cycle_to_compare = 1;
+% 
+% mean_Voltage_measured = mean(B0005.cycle(cycle_to_compare).data.Voltage_measured);
+% mean_Current_measured = mean(B0005.cycle(cycle_to_compare).data.Current_measured);
+% 
+% corr_coefficient_Voltage_measured_Current_measured = sum((B0005.cycle(cycle_to_compare).data.Voltage_measured - mean_Voltage_measured) .* (B0005.cycle(cycle_to_compare).data.Current_measured - mean_Current_measured))/sqrt(sum((B0005.cycle(cycle_to_compare).data.Voltage_measured - mean_Voltage_measured).^2) * sum((B0005.cycle(cycle_to_compare).data.Current_measured - mean_Current_measured).^2));
+
+
+% Define the fields to check
+fields_to_check = {'Voltage_measured', 'Current_measured', 'Temperature_measured', 'Current_charge', 'Voltage_charge'};
+
+% Initialize correlation matrix
+corr_matrix = zeros(length(fields_to_check));
+
+% Loop through the fields and calculate correlations
+for i = 1:length(fields_to_check)
+    field1 = fields_to_check{i};
+    for j = 1:length(fields_to_check)
+        field2 = fields_to_check{j};
+        
+        % Calculate mean for each field
+        mean_field1 = mean(B0005.cycle(cycle_to_compare).data.(field1));
+        mean_field2 = mean(B0005.cycle(cycle_to_compare).data.(field2));
+        
+        % Calculate correlation coefficient
+        numerator = sum((B0005.cycle(cycle_to_compare).data.(field1) - mean_field1) .* (B0005.cycle(cycle_to_compare).data.(field2) - mean_field2));
+        denominator = sqrt(sum((B0005.cycle(cycle_to_compare).data.(field1) - mean_field1).^2) * sum((B0005.cycle(cycle_to_compare).data.(field2) - mean_field2).^2));
+        corr_coefficient = numerator / denominator;
+        
+        % Store the correlation coefficient in the matrix
+        corr_matrix(i, j) = corr_coefficient;
+    end
+end
+
+% Display the correlation matrix
+disp('Correlation Matrix:');
+disp(corr_matrix);
+
+% Create heatmap
+heatmap(fields_to_check, fields_to_check, corr_matrix);
+title('Correlation Heatmap');
+
+% Onemli ozellik analizi
+
+% Veri setinizden gerekli özellikleri seçin (örneğin, 'Voltage_measured', 'Current_measured', 'Temperature_measured', 'Current_charge', 'Voltage_charge')
+selected_features = {'Voltage_measured', 'Current_measured', 'Temperature_measured', 'Current_charge', 'Voltage_charge'};
+
+% Veri setini hazırlama: Özellikleri ve hedef değişkeni seçme
+X = [];
+for i = 1:length(selected_features)
+    feature_data = B0005.cycle(cycle_to_compare).data.(selected_features{i});
+    X = [X, feature_data(:)]; % Veriyi düzleştirerek matris X'e ekleyin
+end
+y = B0005.cycle(cycle_to_compare).data.Voltage_charge; % Hedef değişkeni (örneğin, SoH)
+
+% Karar ağacı modeli oluşturma
+tree = fitrtree(X, y);
+
+% Özellik önem sıralamasını alın
+importance = predictorImportance(tree);
+
+% Özellikleri önem sırasına göre sıralayın
+[sorted_importance, sorted_indices] = sort(importance, 'descend');
+sorted_features = selected_features(sorted_indices);
+
+% Sonuçları görüntüleme
+disp('Feature Importance Ranking:');
+for i = 1:length(sorted_features)
+    disp([sorted_features{i}, ': ', num2str(sorted_importance(i))]);
+end
+
+%% 3
+
+% Partition training ve test setleri oluşturma
+cv = cvpartition(size(X, 1), 'HoldOut', 0.2); % 80% training, 20% test
+
+X_train = X(cv.training,2);
+y_train = B0005.cycle(cycle_to_compare).data.Voltage_charge(cv.training);
+X_test = X(cv.test,2);
+y_test = B0005.cycle(cycle_to_compare).data.Voltage_charge(cv.test);
+
+% Doğrusal regresyon modeli oluşturma ve eğitme
+mdl = fitlm(X_train, y_train);
+
+% Eğitilen modeli kullanarak tahmin yapma
+y_pred = predict(mdl, X_test);
+
+% Tahminleri değerlendirme (örneğin, R2 değeri)
+R2 = corr(y_test', y_pred)^2;
+disp(['R2 Score: ', num2str(R2)]);
